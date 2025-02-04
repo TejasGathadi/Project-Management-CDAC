@@ -2,6 +2,7 @@ package com.cdacProject.taskhive.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +25,7 @@ public class User {
     private String email;
 
     // user password to login
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     // to specify the project size to check the number of projects
