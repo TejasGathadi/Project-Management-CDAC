@@ -46,14 +46,4 @@ public class Issues {
     private List<Comments> comments = new ArrayList<>();
 
 
-
-
-
-
-
-
-
-
-
-
 }
