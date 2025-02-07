@@ -55,9 +55,13 @@ public class ProjectController {
     ) throws Exception {
 
         User user = userService.findUserProfileByJwt(jwt);
+        if(user!= null){
         Project projects = projectService.getProjectById(projectId);
-
         return new ResponseEntity<>(projects, HttpStatus.OK);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
@@ -77,7 +81,7 @@ public class ProjectController {
         return new ResponseEntity<>(createdProjects, HttpStatus.OK);
     }
 
-    @PatchMapping("/{projectId}")
+    @PutMapping("/{projectId}")
     public ResponseEntity<Project> updateProject(
             @PathVariable Long projectId,
             @RequestHeader("Authorization") String jwt,
@@ -86,9 +90,13 @@ public class ProjectController {
     ) throws Exception {
 
         User user = userService.findUserProfileByJwt(jwt);
+        if(user != null){
         Project updatedProject = projectService.updateProject(project, projectId);
 
         return new ResponseEntity<>(updatedProject, HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
@@ -133,9 +141,15 @@ public class ProjectController {
     ) throws Exception {
 
         User user = userService.findUserProfileByJwt(jwt);
+        if(user != null){
         Chat chat = projectService.getChatByProjectId(projectId);
 
         return new ResponseEntity<>(chat, HttpStatus.OK);
+
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
     }
 
 
@@ -143,12 +157,12 @@ public class ProjectController {
     @PostMapping("/invite")
     public ResponseEntity<MessageResponse> inviteProject(
             @RequestBody InviteRequest inviteRequest,
-            @RequestHeader("Authorization") String jwt,
-            @RequestBody Project project
+            @RequestHeader("Authorization") String jwt
 
     ) throws Exception {
 
         User user = userService.findUserProfileByJwt(jwt);
+
 
         invitationService.sendInvitation(inviteRequest.getEmail(), inviteRequest.getProjectId());
         MessageResponse res = new MessageResponse("User Invited to Project Successfully");
@@ -161,8 +175,7 @@ public class ProjectController {
     @GetMapping("/accept_invitation")
     public ResponseEntity<Invitation> acceptInviteProject(
             @RequestParam String token,
-            @RequestHeader("Authorization") String jwt,
-            @RequestBody Project project
+            @RequestHeader("Authorization") String jwt
 
     ) throws Exception {
 
